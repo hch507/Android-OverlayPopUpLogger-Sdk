@@ -1,8 +1,10 @@
 package com.example.floatinglogsdk
 
+import android.annotation.SuppressLint
 import android.graphics.PixelFormat
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -16,6 +18,11 @@ class FloatingLogImpl : LifecycleService() {
     private lateinit var windowManager: WindowManager
     private lateinit var overlayLogView: View
     private lateinit var logTextView: TextView
+    private lateinit var params : WindowManager.LayoutParams
+    private var touchX : Float = 0.0f
+    private var touchY : Float = 0.0f
+    private var viewX : Int = 0
+    private var viewY : Int = 0
     private var type: Int? = null
     override fun onCreate() {
         super.onCreate()
@@ -30,7 +37,7 @@ class FloatingLogImpl : LifecycleService() {
 
         setType()
         // LayoutParams 설정
-        val params = WindowManager.LayoutParams(
+        params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             type!!,
@@ -41,10 +48,32 @@ class FloatingLogImpl : LifecycleService() {
         windowManager.addView(overlayLogView, params)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initialSet() {
         val bt: ImageView = overlayLogView.findViewById(R.id.ib_close)
         bt.setOnClickListener {
             stopSelf()
+        }
+        overlayLogView.setOnTouchListener { v, event ->
+            when(event.action){
+                MotionEvent.ACTION_DOWN ->{
+                    touchX = event.rawX
+                    touchY = event.rawY
+                    viewX = params.x
+                    viewY = params.x
+                }
+                MotionEvent.ACTION_MOVE ->{
+                    val x = (event.rawX- touchX).toInt()
+                    val y = (event.rawY - touchY).toInt()
+
+                    params.x =viewX+x
+                    params.y =viewY+y
+
+                    windowManager.updateViewLayout(overlayLogView, params)
+                    return@setOnTouchListener true
+                }
+            }
+            return@setOnTouchListener false
         }
 
     }
