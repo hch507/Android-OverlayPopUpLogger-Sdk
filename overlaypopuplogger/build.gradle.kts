@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.example.floatinglogsdk"
-    compileSdk = 35
+    namespace = "com.example.overlaypopuplogger"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.floatinglogsdk"
+        applicationId = "com.example.overlaypopuplogger"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -27,29 +27,23 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures{
-        viewBinding = true
+        jvmTarget = "11"
     }
 }
 
 dependencies {
 
-    implementation(project(":overlaypopuplogger"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
-    implementation("androidx.lifecycle:lifecycle-service:2.7.0")
+    implementation(libs.androidx.lifecycle.service)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
 }

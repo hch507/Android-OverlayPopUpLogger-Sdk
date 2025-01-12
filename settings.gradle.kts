@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "FloatingLogSdk"
 include(":app")
- 
+
+include(":overlaypopuplogger")

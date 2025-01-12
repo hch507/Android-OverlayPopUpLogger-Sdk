@@ -1,4 +1,5 @@
-package com.example.floatinglogsdk
+package com.example.overlaypopuplogger.core
+
 
 import android.annotation.SuppressLint
 import android.graphics.PixelFormat
@@ -10,10 +11,9 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LifecycleService
+import com.example.overlaypopuplogger.R
 
-
-class FloatingLogImpl : LifecycleService() {
-
+class OverlayPopUpLogger : LifecycleService() {
 
     private lateinit var windowManager: WindowManager
     private lateinit var overlayLogView: View
@@ -92,4 +92,6 @@ class FloatingLogImpl : LifecycleService() {
             windowManager.removeView(overlayLogView)
         }
     }
+
+
 }
