@@ -4,11 +4,13 @@ package com.example.overlaypopuplogger.core
 import android.annotation.SuppressLint
 import android.graphics.PixelFormat
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.lifecycle.LifecycleService
 import com.example.overlaypopuplogger.R
@@ -24,6 +26,7 @@ class OverlayPopUpLogger : LifecycleService() {
     private var viewX : Int = 0
     private var viewY : Int = 0
     private var type: Int? = null
+    private var isFullScreen = false
     override fun onCreate() {
         super.onCreate()
 
@@ -50,9 +53,21 @@ class OverlayPopUpLogger : LifecycleService() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialSet() {
-        val bt: ImageView = overlayLogView.findViewById(R.id.ib_close)
-        bt.setOnClickListener {
+        val btClose: ImageView = overlayLogView.findViewById(R.id.iv_close)
+        val btFullScreen : ImageView = overlayLogView.findViewById(R.id.iv_open_full_screen)
+        val layoutLogScreen : LinearLayout = overlayLogView.findViewById(R.id.layout_log_screen)
+
+        btClose.setOnClickListener {
             stopSelf()
+        }
+        btFullScreen.setOnClickListener{
+            if(isFullScreen){
+                layoutLogScreen.visibility = View.GONE
+                isFullScreen = false
+            }else{
+                layoutLogScreen.visibility = View.VISIBLE
+                isFullScreen = true
+            }
         }
         overlayLogView.setOnTouchListener { v, event ->
             when(event.action){
@@ -84,6 +99,10 @@ class OverlayPopUpLogger : LifecycleService() {
         else
             WindowManager.LayoutParams.TYPE_PHONE
 
+    }
+
+    fun loggerD(){
+        Log.d("OverlayPopUpLogger", "OverlayPopUpLogger-loggerD() called")
     }
 
     override fun onDestroy() {

@@ -6,14 +6,18 @@ import android.util.Log
 import androidx.core.content.contentValuesOf
 import com.example.overlaypopuplogger.core.OverlayPopUpLogger
 
-internal class FloatingLogImpl : FloatingLog {
-    private val overlayPopUpLogger : OverlayPopUpLogger? = null
+class FloatingLogImpl : FloatingLog {
+    private var overlayPopUpLogger : OverlayPopUpLogger? = null
     override fun start(context :Context) {
-        val intent = Intent(context, overlayPopUpLogger::class.java)
+        overlayPopUpLogger = OverlayPopUpLogger()
+        val intent = Intent(context, OverlayPopUpLogger::class.java)
         context.startService(intent)
     }
 
     override fun d(tag: String, content: String) {
+        if (overlayPopUpLogger!=null){
+
+        }
         Log.d(tag, content)
     }
 

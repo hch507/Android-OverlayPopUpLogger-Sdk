@@ -6,12 +6,16 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+
 import androidx.appcompat.app.AppCompatActivity
 import com.example.floatinglogsdk.databinding.ActivityMainBinding
+import com.example.overlaypopuplogger.api.FloatingLog
+import com.example.overlaypopuplogger.api.FloatingLogImpl
 import com.example.overlaypopuplogger.core.OverlayPopUpLogger
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding : ActivityMainBinding
+    private lateinit var floatLogger : FloatingLog
     override fun onCreate(savedInstanceState: Bundle?) {
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -21,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialSet() {
+        floatLogger= FloatingLogImpl()
         mBinding.btStart.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
                 // Overlay 권한 요청
@@ -31,11 +36,20 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(intent, 1234)
             } else {
                 // 권한이 있으면 Service 시작
-                val intent = Intent(this, OverlayPopUpLogger::class.java)
-                startService(intent)
+                floatLogger.start(this)
             }
-            val intent = Intent(this, OverlayPopUpLogger::class.java)
-            startService(intent)
+            floatLogger.start(this)
+        }
+        mBinding.apply {
+            btLogd.setOnClickListener {
+                floatLogger.d("test_log","click Logd")
+            }
+            btLogi.setOnClickListener {
+                floatLogger.i("test_log","click Logi")
+            }
+            btLoge.setOnClickListener {
+                floatLogger.e("test_log", "click Loge")
+            }
         }
     }
 
@@ -46,11 +60,7 @@ class MainActivity : AppCompatActivity() {
         caller: ComponentCaller
     ) {
         if (requestCode == 1234) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(this)) {
-                // 권한이 승인되면 Service 시작
-                val intent = Intent(this, OverlayPopUpLogger::class.java)
-                startService(intent)
-            }
+            floatLogger.start(this)
         }
     }
 }

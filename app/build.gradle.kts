@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.example.floatinglogsdk"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -36,6 +36,7 @@ android {
     buildFeatures{
         viewBinding = true
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -48,6 +49,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation("androidx.lifecycle:lifecycle-service:2.7.0")
+    implementation(libs.androidx.media3.common.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

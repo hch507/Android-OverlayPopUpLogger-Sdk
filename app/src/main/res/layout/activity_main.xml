@@ -33,19 +33,19 @@
             android:text="start"/>
 
         <Button
-            android:id="@+id/tv_logd"
+            android:id="@+id/bt_logd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logd"/>
 
         <Button
-            android:id="@+id/tv_logi"
+            android:id="@+id/bt_logi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Logi"/>
 
         <Button
-            android:id="@+id/tv_loge"
+            android:id="@+id/bt_loge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loge"/>
