@@ -15,17 +15,21 @@ class FloatingLogImpl : FloatingLog {
     }
 
     override fun d(tag: String, content: String) {
-        if (overlayPopUpLogger!=null){
-
-        }
+        overlayPopUpLogger?.loggerD()
         Log.d(tag, content)
     }
 
     override fun e(tag: String, content: String) {
+        if (overlayPopUpLogger!=null){
+
+        }
         Log.e(tag, content, )
     }
 
     override fun i(tag: String, content: String) {
+        if (overlayPopUpLogger!=null){
+
+        }
         Log.i(tag, content)
     }
 
