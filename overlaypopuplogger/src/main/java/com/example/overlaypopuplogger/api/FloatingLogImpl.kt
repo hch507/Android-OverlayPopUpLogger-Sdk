@@ -15,7 +15,7 @@ class FloatingLogImpl : FloatingLog {
     }
 
     override fun d(tag: String, content: String) {
-        overlayPopUpLogger?.loggerD()
+        overlayPopUpLogger?.loggerD(tag = tag, msg = content)
         Log.d(tag, content)
     }
 
