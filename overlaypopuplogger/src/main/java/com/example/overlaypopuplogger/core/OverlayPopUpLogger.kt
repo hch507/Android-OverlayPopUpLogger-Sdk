@@ -27,7 +27,7 @@ class OverlayPopUpLogger : LifecycleService() {
     private lateinit var logTextView: TextView
     private lateinit var params: WindowManager.LayoutParams
     private lateinit var recyclerView: RecyclerView
-    private val logAdapter: OverlayLoggerAdapter by lazy { OverlayLoggerAdapter() }
+    private lateinit var logAdapter: OverlayLoggerAdapter
 
     private var touchX: Float = 0.0f
     private var touchY: Float = 0.0f
@@ -40,15 +40,17 @@ class OverlayPopUpLogger : LifecycleService() {
 
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         createFloatingView()
+
+        loggerD("Init", "Logger started")
     }
 
     private fun createFloatingView() {
+        Log.d("test_float", "OverlayPopUpLogger-createFloatingView() called")
         val inflater = LayoutInflater.from(this)
         overlayLogView = inflater.inflate(R.layout.floating_log_view, null)
         recyclerView = overlayLogView.findViewById(R.id.rv_overlay_view)
-
+        logAdapter= OverlayLoggerAdapter()
         setType()
-        setRecyclerView()
         // LayoutParams 설정
         params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -59,6 +61,7 @@ class OverlayPopUpLogger : LifecycleService() {
         )
         initialSet()
         windowManager.addView(overlayLogView, params)
+        setRecyclerView()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -86,7 +89,7 @@ class OverlayPopUpLogger : LifecycleService() {
                     touchX = event.rawX
                     touchY = event.rawY
                     viewX = params.x
-                    viewY = params.x
+                    viewY = params.y
                 }
 
                 MotionEvent.ACTION_MOVE -> {
@@ -100,12 +103,13 @@ class OverlayPopUpLogger : LifecycleService() {
                     return@setOnTouchListener true
                 }
             }
-            return@setOnTouchListener false
+            return@setOnTouchListener true
         }
 
     }
 
     private fun setRecyclerView() {
+        Log.d("test_logd", "OverlayPopUpLogger-setRecyclerView() called")
         recyclerView.apply {
             layoutManager = LinearLayoutManager(
                 context, LinearLayoutManager.VERTICAL,
@@ -124,9 +128,18 @@ class OverlayPopUpLogger : LifecycleService() {
     }
 
     fun loggerD(tag: String, msg: String) {
+        Log.d("test_logd", "OverlayPopUpLogger-loggerD() called")
 
+        if (!this::recyclerView.isInitialized) {
+            Log.e("test_logd", "RecyclerView is not initialized yet!")
+            return
+        }
         val logItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg)
-        logAdapter.submitList(logAdapter.currentList + logItem)
+        recyclerView.post {
+            val newList = logAdapter.currentList.toMutableList().apply { add(logItem) }
+            logAdapter.submitList(newList)
+        }
+
     }
 
     override fun onDestroy() {

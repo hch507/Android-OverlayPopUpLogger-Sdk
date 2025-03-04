@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="start"/>
+        <Button
+            android:id="@+id/bt_logd1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
+        <Button
+            android:id="@+id/bt_logd2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
 
+        <Button
+            android:id="@+id/bt_logd3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
+        <Button
+            android:id="@+id/bt_logd4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
+        <Button
+            android:id="@+id/bt_logd5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
+
+        <Button
+            android:id="@+id/bt_logd6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
+        <Button
+            android:id="@+id/bt_logd7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logd"/>
         <Button
             android:id="@+id/bt_logd"
             android:layout_width="wrap_content"
