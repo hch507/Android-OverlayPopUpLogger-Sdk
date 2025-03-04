@@ -2,8 +2,11 @@ package com.example.overlaypopuplogger.core
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.PixelFormat
+import android.os.Binder
 import android.os.Build
+import android.os.IBinder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -35,6 +38,15 @@ class OverlayPopUpLogger : LifecycleService() {
     private var viewY: Int = 0
     private var type: Int? = null
     private var isFullScreen = false
+
+    private val binder = LocalBinder()
+    inner class LocalBinder : Binder() {
+        fun getService(): OverlayPopUpLogger = this@OverlayPopUpLogger
+    }
+    override fun onBind(intent: Intent): IBinder {
+        super.onBind(intent)
+        return binder
+    }
     override fun onCreate() {
         super.onCreate()
 

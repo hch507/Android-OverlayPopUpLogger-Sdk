@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                 // 권한이 있으면 Service 시작
                 floatLogger.start(this)
             }
-            floatLogger.start(this)
+
         }
         mBinding.apply {
             btLogd.setOnClickListener {
