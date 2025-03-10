@@ -40,20 +40,22 @@ class OverlayPopUpLogger : LifecycleService() {
     private var isFullScreen = false
 
     private val binder = LocalBinder()
+
     inner class LocalBinder : Binder() {
         fun getService(): OverlayPopUpLogger = this@OverlayPopUpLogger
     }
+
     override fun onBind(intent: Intent): IBinder {
         super.onBind(intent)
         return binder
     }
+
     override fun onCreate() {
         super.onCreate()
 
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         createFloatingView()
 
-        loggerD("Init", "Logger started")
     }
 
     private fun createFloatingView() {
@@ -61,7 +63,7 @@ class OverlayPopUpLogger : LifecycleService() {
         val inflater = LayoutInflater.from(this)
         overlayLogView = inflater.inflate(R.layout.floating_log_view, null)
         recyclerView = overlayLogView.findViewById(R.id.rv_overlay_view)
-        logAdapter= OverlayLoggerAdapter()
+        logAdapter = OverlayLoggerAdapter()
         setType()
         // LayoutParams 설정
         params = WindowManager.LayoutParams(
@@ -140,18 +142,27 @@ class OverlayPopUpLogger : LifecycleService() {
     }
 
     fun loggerD(tag: String, msg: String) {
-        Log.d("test_logd", "OverlayPopUpLogger-loggerD() called")
 
-        if (!this::recyclerView.isInitialized) {
-            Log.e("test_logd", "RecyclerView is not initialized yet!")
-            return
-        }
-        val logItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg)
+        addLogItem(tag = tag, msg = msg)
+    }
+
+    fun loggerI(tag: String, msg: String) {
+
+        addLogItem(tag = tag, msg = msg)
+    }
+
+    fun loggerE(tag: String, msg: String) {
+
+        addLogItem(tag = tag, msg = msg)
+    }
+
+    private fun addLogItem(tag: String, msg: String) {
+        val logdItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg)
+        Log.d("test_logd", "New LogItem added: ${logdItem.id}, ${logdItem.tag}, ${logdItem.msg}")
         recyclerView.post {
-            val newList = logAdapter.currentList.toMutableList().apply { add(logItem) }
+            val newList = logAdapter.currentList.toMutableList().apply { add(logdItem) }
             logAdapter.submitList(newList)
         }
-
     }
 
     override fun onDestroy() {
