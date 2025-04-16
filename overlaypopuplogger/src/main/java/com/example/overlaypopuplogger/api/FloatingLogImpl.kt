@@ -12,10 +12,12 @@ import com.example.overlaypopuplogger.core.OverlayPopUpLogger
 
 class FloatingLogImpl : FloatingLog {
     private var overlayPopUpLogger: OverlayPopUpLogger? = null
-    private val serviceConnection = object : ServiceConnection {
+    private var context : Context? =null
+    val serviceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             val binder = service as OverlayPopUpLogger.LocalBinder
             overlayPopUpLogger = binder.getService()
+            overlayPopUpLogger!!.setController(this@FloatingLogImpl)
 
         }
 
@@ -24,6 +26,7 @@ class FloatingLogImpl : FloatingLog {
         }
     }
     override fun start(context: Context) {
+        this.context =context
         Log.d("test_logd", "start: ")
 
         val intent = Intent(context, OverlayPopUpLogger::class.java)
@@ -49,7 +52,15 @@ class FloatingLogImpl : FloatingLog {
         Log.i(tag, content)
     }
 
-    override fun stop() {
 
+    override fun stop() {
+        try {
+            context?.unbindService(serviceConnection)
+            Log.d("FloatingLog", "unbindService 성공")
+        } catch (e: Exception) {
+            Log.e("FloatingLog", "unbind 실패", e)
+        }
+
+        overlayPopUpLogger = null
     }
 }

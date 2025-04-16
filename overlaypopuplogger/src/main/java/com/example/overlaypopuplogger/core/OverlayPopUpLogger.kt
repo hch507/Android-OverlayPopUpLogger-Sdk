@@ -3,6 +3,7 @@ package com.example.overlaypopuplogger.core
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.PixelFormat
 import android.os.Binder
 import android.os.Build
@@ -19,18 +20,21 @@ import androidx.lifecycle.LifecycleService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.overlaypopuplogger.R
+import com.example.overlaypopuplogger.api.FloatingLog
+import com.example.overlaypopuplogger.api.FloatingLogImpl
 import com.example.overlaypopuplogger.core.recycler.OverlayLoggerAdapter
 import com.example.overlaypopuplogger.model.OverlayLogItem
 import java.util.UUID
 
-class OverlayPopUpLogger : LifecycleService() {
+class OverlayPopUpLogger() : LifecycleService() {
 
     private lateinit var windowManager: WindowManager
     private lateinit var overlayLogView: View
-    private lateinit var logTextView: TextView
     private lateinit var params: WindowManager.LayoutParams
     private lateinit var recyclerView: RecyclerView
     private lateinit var logAdapter: OverlayLoggerAdapter
+
+    private lateinit var floatingLogImpl: FloatingLog
 
     private var touchX: Float = 0.0f
     private var touchY: Float = 0.0f
@@ -50,9 +54,9 @@ class OverlayPopUpLogger : LifecycleService() {
         return binder
     }
 
+
     override fun onCreate() {
         super.onCreate()
-
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
         createFloatingView()
 
@@ -85,6 +89,8 @@ class OverlayPopUpLogger : LifecycleService() {
         val layoutLogScreen: LinearLayout = overlayLogView.findViewById(R.id.layout_log_screen)
 
         btClose.setOnClickListener {
+            Log.d("test_close", "initialSet: ")
+            floatingLogImpl.stop()
             stopSelf()
         }
         btFullScreen.setOnClickListener {
@@ -133,6 +139,9 @@ class OverlayPopUpLogger : LifecycleService() {
         }
     }
 
+    fun setController(floatingLogImpl: FloatingLogImpl){
+        this.floatingLogImpl =floatingLogImpl
+    }
     private fun setType() {
         type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
