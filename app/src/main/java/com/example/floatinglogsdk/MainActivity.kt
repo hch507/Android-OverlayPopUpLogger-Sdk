@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
         mBinding.apply {
             btLogd.setOnClickListener {
-                floatLogger.d("test_log","click Logd")
+                floatLogger.d("test_log","click Logddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
             }
             btLogi.setOnClickListener {
                 floatLogger.i("test_log","click Logi")
