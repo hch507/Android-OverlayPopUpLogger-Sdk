@@ -170,7 +170,9 @@ class OverlayPopUpLogger() : LifecycleService() {
         Log.d("test_logd", "New LogItem added: ${logdItem.id}, ${logdItem.tag}, ${logdItem.msg}")
         recyclerView.post {
             val newList = logAdapter.currentList.toMutableList().apply { add(logdItem) }
-            logAdapter.submitList(newList)
+            logAdapter.submitList(newList){
+                recyclerView.scrollToPosition(logAdapter.itemCount - 1)
+            }
         }
     }
 
