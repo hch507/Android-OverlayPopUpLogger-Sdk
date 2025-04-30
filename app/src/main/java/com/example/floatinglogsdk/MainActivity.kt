@@ -42,13 +42,13 @@ class MainActivity : AppCompatActivity() {
         }
         mBinding.apply {
             btLogd.setOnClickListener {
-                floatLogger.d("test_log","click Logddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
+                floatLogger.d("test_logd","click Logddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd")
             }
             btLogi.setOnClickListener {
-                floatLogger.i("test_log","click Logi")
+                floatLogger.i("test_logi","click Logi")
             }
             btLoge.setOnClickListener {
-                floatLogger.e("test_log", "click Loge")
+                floatLogger.e("test_loge", "click Loge")
             }
         }
     }

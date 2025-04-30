@@ -3,4 +3,6 @@
     <color name="grey">#80BDBDBD</color>
     <color name="black">#020000</color>
     <color name="red">#DE5151</color>
+    <color name="yellow">#FFFF99</color>
+    <color name="cyan">#009688</color>
 </resources>

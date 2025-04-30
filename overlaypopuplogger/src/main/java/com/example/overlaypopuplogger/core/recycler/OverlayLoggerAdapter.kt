@@ -14,7 +14,9 @@ class OverlayLoggerAdapter : ListAdapter<OverlayLogItem, OverlayLoggerAdapter.Lo
         fun bind(overlayLogItem: OverlayLogItem){
             binding.apply {
                 tvTag.text = overlayLogItem.tag
+                tvTag.setTextColor(overlayLogItem.color)
                 tvContent.text = overlayLogItem.msg
+                tvContent.setTextColor(overlayLogItem.color)
             }
         }
     }

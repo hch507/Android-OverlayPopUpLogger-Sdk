@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -151,22 +152,22 @@ class OverlayPopUpLogger() : LifecycleService() {
     }
 
     fun loggerD(tag: String, msg: String) {
-
-        addLogItem(tag = tag, msg = msg)
+        val color = ContextCompat.getColor(this, R.color.cyan)
+        addLogItem(tag = tag, msg = msg, color= color)
     }
 
     fun loggerI(tag: String, msg: String) {
-
-        addLogItem(tag = tag, msg = msg)
+        val color = ContextCompat.getColor(this, R.color.yellow)
+        addLogItem(tag = tag, msg = msg, color = color)
     }
 
     fun loggerE(tag: String, msg: String) {
-
-        addLogItem(tag = tag, msg = msg)
+        val color = ContextCompat.getColor(this, R.color.red)
+        addLogItem(tag = tag, msg = msg, color = color)
     }
 
-    private fun addLogItem(tag: String, msg: String) {
-        val logdItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg)
+    private fun addLogItem(tag: String, msg: String, color : Int) {
+        val logdItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg, color)
         Log.d("test_logd", "New LogItem added: ${logdItem.id}, ${logdItem.tag}, ${logdItem.msg}")
         recyclerView.post {
             val newList = logAdapter.currentList.toMutableList().apply { add(logdItem) }
