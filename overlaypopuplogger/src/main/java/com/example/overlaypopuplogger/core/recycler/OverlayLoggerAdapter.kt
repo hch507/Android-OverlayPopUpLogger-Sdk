@@ -17,6 +17,7 @@ class OverlayLoggerAdapter : ListAdapter<OverlayLogItem, OverlayLoggerAdapter.Lo
                 tvTag.setTextColor(overlayLogItem.color)
                 tvContent.text = overlayLogItem.msg
                 tvContent.setTextColor(overlayLogItem.color)
+                tvTime.text= overlayLogItem.time
             }
         }
     }

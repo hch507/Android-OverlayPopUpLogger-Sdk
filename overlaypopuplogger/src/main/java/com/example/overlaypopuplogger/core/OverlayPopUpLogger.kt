@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +26,9 @@ import com.example.overlaypopuplogger.api.FloatingLog
 import com.example.overlaypopuplogger.api.FloatingLogImpl
 import com.example.overlaypopuplogger.core.recycler.OverlayLoggerAdapter
 import com.example.overlaypopuplogger.model.OverlayLogItem
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 class OverlayPopUpLogger() : LifecycleService() {
@@ -42,7 +46,15 @@ class OverlayPopUpLogger() : LifecycleService() {
     private var viewX: Int = 0
     private var viewY: Int = 0
     private var type: Int? = null
+
+    /**view*/
+    private lateinit var btClose: ImageView
+    private lateinit var btFullScreen: ImageView
+    private lateinit var layoutLogScreen: LinearLayout
+
+    /** view 상태 관리 flag*/
     private var isFullScreen = false
+    private var useSearch = false
 
     private val binder = LocalBinder()
 
@@ -85,9 +97,11 @@ class OverlayPopUpLogger() : LifecycleService() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initialSet() {
-        val btClose: ImageView = overlayLogView.findViewById(R.id.iv_close)
-        val btFullScreen: ImageView = overlayLogView.findViewById(R.id.iv_open_full_screen)
-        val layoutLogScreen: LinearLayout = overlayLogView.findViewById(R.id.layout_log_screen)
+
+        btClose = overlayLogView.findViewById(R.id.iv_close)
+        btFullScreen = overlayLogView.findViewById(R.id.iv_open_full_screen)
+        layoutLogScreen = overlayLogView.findViewById(R.id.layout_log_screen)
+
 
         btClose.setOnClickListener {
             Log.d("test_close", "initialSet: ")
@@ -127,7 +141,10 @@ class OverlayPopUpLogger() : LifecycleService() {
             return@setOnTouchListener true
         }
 
+
     }
+
+
 
     private fun setRecyclerView() {
         Log.d("test_logd", "OverlayPopUpLogger-setRecyclerView() called")
@@ -140,9 +157,10 @@ class OverlayPopUpLogger() : LifecycleService() {
         }
     }
 
-    fun setController(floatingLogImpl: FloatingLogImpl){
-        this.floatingLogImpl =floatingLogImpl
+    fun setController(floatingLogImpl: FloatingLogImpl) {
+        this.floatingLogImpl = floatingLogImpl
     }
+
     private fun setType() {
         type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -153,7 +171,7 @@ class OverlayPopUpLogger() : LifecycleService() {
 
     fun loggerD(tag: String, msg: String) {
         val color = ContextCompat.getColor(this, R.color.cyan)
-        addLogItem(tag = tag, msg = msg, color= color)
+        addLogItem(tag = tag, msg = msg, color = color)
     }
 
     fun loggerI(tag: String, msg: String) {
@@ -166,15 +184,23 @@ class OverlayPopUpLogger() : LifecycleService() {
         addLogItem(tag = tag, msg = msg, color = color)
     }
 
-    private fun addLogItem(tag: String, msg: String, color : Int) {
-        val logdItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg, color)
+    private fun addLogItem(tag: String, msg: String, color: Int) {
+        val time = getCurrentTime()
+        val logdItem = OverlayLogItem(UUID.randomUUID().toString(), tag, msg, color, time)
         Log.d("test_logd", "New LogItem added: ${logdItem.id}, ${logdItem.tag}, ${logdItem.msg}")
         recyclerView.post {
             val newList = logAdapter.currentList.toMutableList().apply { add(logdItem) }
-            logAdapter.submitList(newList){
+            logAdapter.submitList(newList) {
                 recyclerView.scrollToPosition(logAdapter.itemCount - 1)
             }
         }
+    }
+
+    private fun getCurrentTime() : String{
+        val currentTimeMillis = System.currentTimeMillis()
+        val currentTime = Date(currentTimeMillis)
+        val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        return format.format(currentTime)
     }
 
     override fun onDestroy() {
