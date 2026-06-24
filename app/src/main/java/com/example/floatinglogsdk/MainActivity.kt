@@ -10,8 +10,8 @@ import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import com.example.floatinglogsdk.databinding.ActivityMainBinding
 import com.example.overlaypopuplogger.api.FloatingLog
-import com.example.overlaypopuplogger.api.FloatingLogImpl
-import com.example.overlaypopuplogger.core.OverlayPopUpLogger
+import com.example.overlaypopuplogger.api.FloatingLogSdk
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding : ActivityMainBinding
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialSet() {
-        floatLogger= FloatingLogImpl()
+        floatLogger= FloatingLogSdk.create()
         mBinding.btStart.setOnClickListener{
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
                 // Overlay 권한 요청
