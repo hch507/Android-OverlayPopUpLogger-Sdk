@@ -1,4 +1,4 @@
-package com.example.overlaypopuplogger.core.recycler
+package com.example.overlaypopuplogger.internal.core.recycler
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.overlaypopuplogger.databinding.ItemLogBinding
-import com.example.overlaypopuplogger.model.OverlayLogItem
+import com.example.overlaypopuplogger.internal.model.OverlayLogItem
 
-class OverlayLoggerAdapter : ListAdapter<OverlayLogItem, OverlayLoggerAdapter.LogItemViewHolder>(diffUtil){
+class OverlayLoggerAdapter : ListAdapter<OverlayLogItem, OverlayLoggerAdapter.LogItemViewHolder>(
+    diffUtil
+){
     inner class LogItemViewHolder(private val binding: ItemLogBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(overlayLogItem: OverlayLogItem){
             binding.apply {

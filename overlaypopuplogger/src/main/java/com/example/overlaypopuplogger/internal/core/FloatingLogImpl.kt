@@ -1,16 +1,14 @@
-package com.example.overlaypopuplogger.api
+package com.example.overlaypopuplogger.internal.core
 
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
 import android.util.Log
-import com.example.overlaypopuplogger.core.OverlayPopUpLogger
+import com.example.overlaypopuplogger.api.FloatingLog
 
-class FloatingLogImpl : FloatingLog {
+internal class FloatingLogImpl : FloatingLog {
     private var overlayPopUpLogger: OverlayPopUpLogger? = null
     private var context : Context? =null
     val serviceConnection = object : ServiceConnection {

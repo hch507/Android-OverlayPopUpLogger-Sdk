@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FloatingLogSdk">
         <service
-            android:name=".core.OverlayPopUpLogger"
+            android:name=".internal.core.OverlayPopUpLogger"
             android:exported="true" />
     </application>
 

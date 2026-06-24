@@ -1,9 +1,8 @@
-package com.example.overlaypopuplogger.core
+package com.example.overlaypopuplogger.internal.core
 
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.ServiceConnection
 import android.graphics.PixelFormat
 import android.os.Binder
 import android.os.Build
@@ -15,17 +14,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.overlaypopuplogger.R
 import com.example.overlaypopuplogger.api.FloatingLog
-import com.example.overlaypopuplogger.api.FloatingLogImpl
-import com.example.overlaypopuplogger.core.recycler.OverlayLoggerAdapter
-import com.example.overlaypopuplogger.model.OverlayLogItem
+import com.example.overlaypopuplogger.internal.core.recycler.OverlayLoggerAdapter
+import com.example.overlaypopuplogger.internal.model.OverlayLogItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -157,7 +153,7 @@ class OverlayPopUpLogger() : LifecycleService() {
         }
     }
 
-    fun setController(floatingLogImpl: FloatingLogImpl) {
+    fun setController(floatingLogImpl: FloatingLog) {
         this.floatingLogImpl = floatingLogImpl
     }
 

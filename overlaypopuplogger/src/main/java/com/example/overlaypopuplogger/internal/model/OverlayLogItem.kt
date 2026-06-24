@@ -1,4 +1,4 @@
-package com.example.overlaypopuplogger.model
+package com.example.overlaypopuplogger.internal.model
 
 data class OverlayLogItem(
     val id : String,
